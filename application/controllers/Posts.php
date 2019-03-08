@@ -13,6 +13,9 @@
 
     public function view($slug = NULL){
       $data['post'] = $this->post_model->get_posts($slug);
+      $post_id = $data['post']['id'];
+      $data['comments'] = $this->comment_model->get_comments($post_id);
+
       if(empty($data['post'])){
         show_404();
       }
@@ -46,7 +49,7 @@
         $this->load->library('upload', $config);
         if(!$this->upload->do_upload()){
           $error = array('error' => $this->upload->display_errors());
-          $post_image = 'noimage.jpg';
+          $post_image = 'noimage.png';
         }else{
           $data = array('upload_data' => $this->upload->data());
           $post_image = $_FILES['userfile']['name'];

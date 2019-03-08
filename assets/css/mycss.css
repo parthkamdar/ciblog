@@ -4,3 +4,9 @@
 .navbar{
   background: #c0392b;
 }
+.container{
+  margin-top: 50px;
+}
+.post-item{
+  margin-top: 30px; 
+}
