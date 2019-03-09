@@ -1,16 +1,25 @@
 <?php
   class Categories extends CI_Controller{
     public function create(){
-      $data['title'] = 'Create Category';
+      if($this->session->userdata('logged_in')){
+        $data['title'] = 'Create Category';
 
-      $this->form_validation->set_rules('name', 'Name', 'required');
-      if($this->form_validation->run() == FALSE){
-        $this->load->view('templates/header');
-        $this->load->view('categories/create', $data);
-        $this->load->view('templates/footer');
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        if($this->form_validation->run() == FALSE){
+          $this->load->view('templates/header');
+          $this->load->view('categories/create', $data);
+          $this->load->view('templates/footer');
+        }else{
+          $this->category_model->create_category();
+
+          //Flash Message
+          $this->session->set_flashdata('category_created','Your category has been created!');
+
+          redirect('categories');
+        }
       }else{
-        $this->category_model->create_category();
-        redirect('categories');
+        $this->session->set_flashdata('login_required', 'Please login to acess this Page !!');
+        redirect('users/login');
       }
     }
 
